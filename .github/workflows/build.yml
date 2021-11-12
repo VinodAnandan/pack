@@ -220,6 +220,11 @@ jobs:
           PACK_HELP="${PACK_HELP//$'\n'/'%0A'}"
           PACK_HELP="${PACK_HELP//$'\r'/'%0D'}"
           echo "::set-output name=help::$PACK_HELP"
+      - name: Generate SBOM JSON
+        uses: CycloneDX/gh-gomod-generate-sbom@v1
+        with:
+          args: app -main cmd/pack -licenses -json pack-v${{ env.PACK_VERSION }}-bom.cdx.json
+          version: ^v1
       - name: Generate changelog
         uses: ./.github/workflows/actions/release-notes
         id: changelog
